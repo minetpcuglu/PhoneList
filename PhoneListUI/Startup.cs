@@ -29,6 +29,15 @@ namespace PhoneListUI
             services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
             #endregion
+            //#region IoC
+            //services.AddScoped<IHobbyService, HobbyService>(); /// dý 
+            //services.AddScoped<IEducationService, EducationService>(); /// dý 
+            //services.AddScoped<IAppUserService, AppUserService>(); /// dý 
+
+            //services.AddTransient<UserManager<AppUser>>();
+            //services.AddTransient<UserManager<AppRole>>();
+
+            //#endregion
             services.AddControllersWithViews();
         }
 
