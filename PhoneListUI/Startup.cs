@@ -1,3 +1,5 @@
+using BusinessLayer.Services.Concrete;
+using BusinessLayer.Services.Interface;
 using DataAccessLayer.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,15 +31,10 @@ namespace PhoneListUI
             services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
             #endregion
-            //#region IoC
-            //services.AddScoped<IHobbyService, HobbyService>(); /// dý 
-            //services.AddScoped<IEducationService, EducationService>(); /// dý 
-            //services.AddScoped<IAppUserService, AppUserService>(); /// dý 
 
-            //services.AddTransient<UserManager<AppUser>>();
-            //services.AddTransient<UserManager<AppRole>>();
-
-            //#endregion
+            #region IoC
+            services.AddScoped<IPersonService, PersonService>(); /// dý 
+            #endregion
             services.AddControllersWithViews();
         }
 
@@ -60,6 +57,7 @@ namespace PhoneListUI
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication(); //DI
 
             app.UseEndpoints(endpoints =>
             {

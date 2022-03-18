@@ -1,0 +1,27 @@
+﻿@model List<Person>
+
+<table class="table table-bordered" id="tblHobby">
+    <tr>
+        <td>1</td>
+        <td>1</td>
+        <th> Güncelle  </th>
+        <th> Sil  </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.FirstName</td>
+            @*<td><a href="/Hobby/DeleteHobby/@item.Id" id="DeleteBtn" onclick="return confirm('Silmek Istediginize Eminmisiniz');" class="btn btn-outline-danger"> <b>Sil</b></a></td>7*@
+            <td><a href="/Hobby/UpdateHobby/@item.Id" class="btn btn-outline-warning"> <b>Güncelle</b></a></td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-sm"
+                        onclick="Delete(@item.Id)">
+                    Sil
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>

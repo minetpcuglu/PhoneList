@@ -21,18 +21,12 @@ namespace DataAccessLayer.UnitOfWorks.Concrete
             this._db = db ?? throw new ArgumentNullException("Database Can Not To Be Null..!");
         }
 
-        public IPersonRepository PersonRepository => throw new NotImplementedException();
-
-        public IContactRepository ContactRepository => throw new NotImplementedException();
-
-        public ICityRepository CityRepository => throw new NotImplementedException();
-
         public async Task Commit() => await _db.SaveChangesAsync();
         //=> ??= Karar mekanizmasını başlattık. Bu karar mekanizması ya bize db bağlantısını verecek ya da ArgumentNullException ile hata mesajımı gönderecektir.
 
 
         private IPersonRepository _personRepository;
-        public IPersonRepository PersonRepositories
+        public IPersonRepository PersonRepository
         {
             get
             {
@@ -42,7 +36,7 @@ namespace DataAccessLayer.UnitOfWorks.Concrete
             }
         }
         private IContactRepository _contactRepository;
-        public IContactRepository ContactRepositories
+        public IContactRepository ContactRepository
         {
             get
             {
@@ -52,7 +46,7 @@ namespace DataAccessLayer.UnitOfWorks.Concrete
             }
         }
         private ICityRepository _cityRepository;
-        public ICityRepository CityRepositories
+        public ICityRepository CityRepository
         {
             get
             {
