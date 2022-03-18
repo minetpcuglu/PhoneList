@@ -19,8 +19,6 @@ namespace DataAccessLayer.Mapping.Concrete
             builder.Property(x => x.LastName).HasMaxLength(50).IsRequired(true);
 
             builder.ToTable("Persons");
-
-        
         }
     }
 }

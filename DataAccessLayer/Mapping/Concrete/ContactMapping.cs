@@ -19,10 +19,6 @@ namespace DataAccessLayer.Mapping.Concrete
             builder.Property(x => x.PhoneNumber).HasMaxLength(11).IsRequired(true);
 
             builder.ToTable("Contacts");
-
-
         }
-
-    
     }
 }
