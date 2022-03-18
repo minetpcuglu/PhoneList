@@ -21,4 +21,10 @@
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BaseRepositories\EntityTypeRepo\Concrete\" />
+    <Folder Include="BaseRepositories\EntityTypeRepo\Interface\" />
+    <Folder Include="BaseRepositories\EntityTypeRepo\" />
+  </ItemGroup>
+
 </Project>
