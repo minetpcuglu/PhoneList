@@ -22,6 +22,13 @@ namespace PhoneListUI.Controllers
 
             return View(result);
         }
+
+
+        public async Task<IActionResult> GetList()
+        {
+            var result = await _personServices.GetAll();
+            return View(result);
+        }
     
     }
 }
