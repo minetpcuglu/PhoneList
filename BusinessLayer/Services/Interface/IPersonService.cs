@@ -10,7 +10,8 @@ namespace BusinessLayer.Services.Interface
    public interface IPersonService
     {
         Task<List<PersonDTO>> GetAll();
-        //Task Add(PersonDTO personDTO);
+        Task Add(PersonDTO personDTO);
+
         //Task<HobbyDTO> GetById(int id);
         //Task Update(HobbyDTO hobbyDTO);
         //Task<bool> Delete(int id);

@@ -1,5 +1,6 @@
 using BusinessLayer.Services.Concrete;
 using BusinessLayer.Services.Interface;
+using BusinessLayer.Utilities.AutoMapper;
 using DataAccessLayer.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,10 @@ namespace PhoneListUI
             services.AddScoped<IPersonService, PersonService>(); /// dý 
             #endregion
             services.AddControllersWithViews();
+            #region AutoMapper
+            services.AddAutoMapper(typeof(PersonMapping));
+           
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

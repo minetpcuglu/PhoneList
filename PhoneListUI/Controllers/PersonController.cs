@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Services.Interface;
+using DataAccessLayer.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,24 @@ namespace PhoneListUI.Controllers
             _personServices = personService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var result = await _personServices.GetAll();
-
-            return View(result);
-        }
-
-
         public async Task<IActionResult> GetList()
         {
             var result = await _personServices.GetAll();
             return View(result);
         }
-    
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(PersonDTO person)
+        {
+            await _personServices.Add(person);
+            return RedirectToAction("GetList");
+        }
+        
+
     }
 }
