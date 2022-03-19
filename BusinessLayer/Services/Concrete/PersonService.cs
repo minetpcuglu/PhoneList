@@ -20,8 +20,8 @@ namespace BusinessLayer.Services.Concrete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private ApplicationDbContext _context;
-      
-        public PersonService( IUnitOfWork unitOfWork, IPersonRepository personRepository, ApplicationDbContext applicationDbContext,IMapper mapper)
+
+        public PersonService(IUnitOfWork unitOfWork, IPersonRepository personRepository, ApplicationDbContext applicationDbContext, IMapper mapper)
         {
             _mapper = mapper;
             _context = applicationDbContext;
@@ -29,19 +29,23 @@ namespace BusinessLayer.Services.Concrete
             _personRepository = personRepository;
 
         }
-
         public async Task Add(PersonDTO personDTO)
         {
-            if (personDTO !=null)
+            if (personDTO != null)
             {
                 var addPerson = _mapper.Map<PersonDTO, Person>(personDTO);
                 await _unitOfWork.PersonRepository.Insert(addPerson);
-                await _unitOfWork.Commit() ;
+                await _unitOfWork.Commit();
             }
-          
+
         }
 
-     
+        public async Task Delete(int id)
+        {
+            var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
+            _unitOfWork.PersonRepository.Delete(deletePerson);
+            await _unitOfWork.Commit();
+        }
 
         public async Task<List<PersonDTO>> GetAll()
         {
@@ -51,11 +55,11 @@ namespace BusinessLayer.Services.Concrete
                     Id = x.Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    FullName =x.FullName,
-                    
+                    FullName = x.FullName,
+
                     ContactDTOs = x.Contacts.Select(y => new ContactDTO { CityId = y.Id, EMail = y.EMail, PhoneNumber = y.PhoneNumber }).ToList()
                 });
-          
+
             return list;
         }
     }

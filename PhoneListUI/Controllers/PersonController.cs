@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Services.Interface;
 using DataAccessLayer.Models.DTOs;
+using DataAccessLayer.Models.VMs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,19 @@ namespace PhoneListUI.Controllers
             await _personServices.Add(person);
             return RedirectToAction("GetList");
         }
-        
+       
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id != 0)
+            {
+               await _personServices.Delete(id);
+                return RedirectToAction("GetList");
+            }
+            return BadRequest();
+        }
+
+
 
     }
 }
