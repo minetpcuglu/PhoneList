@@ -1,4 +1,4 @@
-﻿@model List<Person>
+﻿@model List<PersonDTO>
 
 <table class="table table-bordered" id="tblHobby">
     <tr>
@@ -13,6 +13,8 @@
         <tr>
             <td>@item.Id</td>
             <td>@item.FirstName</td>
+            <td>@item.FullName</td>
+         
             @*<td><a href="/Hobby/DeleteHobby/@item.Id" id="DeleteBtn" onclick="return confirm('Silmek Istediginize Eminmisiniz');" class="btn btn-outline-danger"> <b>Sil</b></a></td>7*@
             <td><a href="/Hobby/UpdateHobby/@item.Id" class="btn btn-outline-warning"> <b>Güncelle</b></a></td>
             <td>

@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EntityLayer.Entities.Concrete
+namespace DataAccessLayer.Models.DTOs
 {
-   public class Person
+    public class PersonDTO
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FirstName { get; set; }
         public string FullName { get; set; }
-
-        //ilişkiler
-        public virtual List<Contact> Contacts { get; set; }
+        public List<ContactDTO> ContactDTOs { get; set; }
     }
 }

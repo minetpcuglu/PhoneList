@@ -14,8 +14,6 @@ namespace PhoneListUI.Controllers
         public PersonController(IPersonService personService)
         {
             _personServices = personService;
-           
-
         }
 
         public async Task<IActionResult> Index()

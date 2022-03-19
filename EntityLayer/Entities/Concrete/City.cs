@@ -10,7 +10,8 @@ namespace EntityLayer.Entities.Concrete
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
         //ilişkiler
-        //public virtual List<Contact> Contacts { get; set; }
+        public virtual List<Contact> Contacts { get; set; }
     }
 }

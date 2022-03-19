@@ -1,8 +1,8 @@
 ﻿using BusinessLayer.Services.Interface;
 using DataAccessLayer.BaseRepositories.EntityTypeRepo.Interface;
 using DataAccessLayer.Context;
+using DataAccessLayer.Models.DTOs;
 using DataAccessLayer.UnitOfWorks.Interface;
-using EntityLayer.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,17 +25,27 @@ namespace BusinessLayer.Services.Concrete
             _personRepository = personRepository;
 
         }
-        public async Task Add(Person personDTO)
-        {
-            await _unitOfWork.PersonRepository.Insert(personDTO);
-            await _unitOfWork.Commit();
+        //public async Task Add(PersonDTO personDTO)
+        //{
+        //    //await _unitOfWork.PersonRepository.Insert(personDTO);
+        //    //await _unitOfWork.Commit();
+        //    return null;
 
-        }
+        //}
 
-        public async Task<List<Person>> GetAll()
+        public async Task<List<PersonDTO>> GetAll()
         {
-            var list = await _unitOfWork.PersonRepository.GetAll();
-            await _unitOfWork.Commit();
+            var list = await _personRepository.GetFilteredList(
+                selector: x => new PersonDTO
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    FullName =x.FullName,
+                    
+                    ContactDTOs = x.Contacts.Select(y => new ContactDTO { CityId = y.Id, EMail = y.EMail, PhoneNumber = y.PhoneNumber }).ToList()
+                });
+          
             return list;
         }
     }

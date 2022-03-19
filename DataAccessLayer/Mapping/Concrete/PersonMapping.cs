@@ -17,6 +17,7 @@ namespace DataAccessLayer.Mapping.Concrete
             builder.Property(u => u.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.FirstName).HasMaxLength(50).IsRequired(true);
             builder.Property(x => x.LastName).HasMaxLength(50).IsRequired(true);
+            builder.Property(x => x.FullName).HasMaxLength(70).IsRequired(true);
 
             builder.ToTable("Persons");
         }

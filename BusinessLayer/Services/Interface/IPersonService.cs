@@ -1,4 +1,4 @@
-﻿using EntityLayer.Entities.Concrete;
+﻿using DataAccessLayer.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +9,8 @@ namespace BusinessLayer.Services.Interface
 {
    public interface IPersonService
     {
-        Task<List<Person>> GetAll();
-        Task Add(Person personDTO);
+        Task<List<PersonDTO>> GetAll();
+        //Task Add(PersonDTO personDTO);
         //Task<HobbyDTO> GetById(int id);
         //Task Update(HobbyDTO hobbyDTO);
         //Task<bool> Delete(int id);
