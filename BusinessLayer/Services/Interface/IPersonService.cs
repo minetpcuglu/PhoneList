@@ -11,7 +11,7 @@ namespace BusinessLayer.Services.Interface
     {
         Task<List<PersonDTO>> GetAll();
         Task Add(PersonDTO personDTO);
-        Task Delete(int id);
+        Task<bool> Delete(int id);
        
         Task<PersonDTO> GetById(int id);
         Task Update(PersonDTO personDTO);

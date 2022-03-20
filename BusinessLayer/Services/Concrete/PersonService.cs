@@ -40,11 +40,16 @@ namespace BusinessLayer.Services.Concrete
 
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
-            _unitOfWork.PersonRepository.Delete(deletePerson);
-            await _unitOfWork.Commit();
+            if (id != 0)
+            {
+                var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
+                _unitOfWork.PersonRepository.Delete(deletePerson);
+                await _unitOfWork.Commit();
+                return true;
+            }
+            return false;
         }
 
         public async Task<List<PersonDTO>> GetAll()
@@ -86,7 +91,7 @@ namespace BusinessLayer.Services.Concrete
         public async Task Update(PersonDTO personDTO)
         {
             var value = _mapper.Map<PersonDTO, Person>(personDTO);
-            if (value.Id !=0)
+            if (value.Id != 0)
             {
                 await _unitOfWork.PersonRepository.Update(value);
                 await _unitOfWork.SaveChangesAsync();

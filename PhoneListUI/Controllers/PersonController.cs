@@ -35,16 +35,42 @@ namespace PhoneListUI.Controllers
             await _personServices.Add(person);
             return RedirectToAction("GetList");
         }
-       
-        [HttpGet]
+
+        //[HttpGet]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    if (id != 0)
+        //    {
+        //       await _personServices.Delete(id);
+        //        return RedirectToAction("GetList");
+        //    }
+        //    return BadRequest();
+        //}
+
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             if (id != 0)
             {
-               await _personServices.Delete(id);
-                return RedirectToAction("GetList");
+                var result = await _personServices.Delete(id);
+                if (result)
+                {
+                    return Json(new ToastViewModel
+                    {
+                        Message = "silindi.",
+                        Success = true
+                    });
+                }
+                else
+                {
+                    return Json(new ToastViewModel
+                    {
+                        Message = "İşlem Başarısız.",
+                        Success = false
+                    });
+                }
             }
-            return BadRequest();
+            return View();
         }
         [HttpGet]
         public async Task<IActionResult>  Update(int id)
@@ -58,8 +84,5 @@ namespace PhoneListUI.Controllers
             await _personServices.Update(person);
             return RedirectToAction("GetList");
         }
-
-
-
     }
 }
