@@ -71,5 +71,25 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Concrete
             await _context.SaveChangesAsync();
         }
         public async Task<T> FirstOrDefault(Expression<Func<T, bool>> expression) => await _table.Where(expression).FirstOrDefaultAsync();
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            query = query.Where(predicate);
+
+            if (includeProperties.Any()) //Eğer eklenen includePropertiler varsa
+            {
+                foreach (var includeProperty in includeProperties)
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
+
+            return await query.AsNoTracking().SingleOrDefaultAsync();
+        }
+
+        public IQueryable<T> GetQueryable()
+           => _table.AsQueryable()
+               .AsNoTracking();
     }
 }

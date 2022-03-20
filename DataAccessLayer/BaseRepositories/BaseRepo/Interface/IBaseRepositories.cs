@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 namespace DataAccessLayer.BaseRepositories.BaseRepo.Interface
 {
     // Repository: Temel olarak veritabanı sorgulama işlemlerinin bir merkezden yapılmasını sağlar kod tekrarını önler.
+
     public interface IBaseRepositories<T> where T : class
     {
         Task Insert(T t);
         void Delete(T t);
         Task Update(T t);
+        IQueryable<T> GetQueryable();
         Task<T> FirstOrDefault(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAll(); // Asenkron programlama yapmak istediğimiz methodlarımızı "TASK" olarak işaretlenir.
         Task<List<T>> GetListAll(Expression<Func<T, bool>> filter);  //filter 
@@ -36,7 +38,8 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Interface
                                                        Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
                                                        Func<IQueryable<T>, IIncludableQueryable<T, object>> inculude = null,
                                                        bool disableTracking = true);
-                               
+
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetById(int id);
     }
 }

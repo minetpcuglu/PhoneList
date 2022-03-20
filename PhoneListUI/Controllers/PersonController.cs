@@ -46,6 +46,18 @@ namespace PhoneListUI.Controllers
             }
             return BadRequest();
         }
+        [HttpGet]
+        public async Task<IActionResult>  Update(int id)
+        {
+            var value = await _personServices.GetById(id);
+            return View(value);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(PersonDTO person)
+        {
+            await _personServices.Update(person);
+            return RedirectToAction("GetList");
+        }
 
 
 

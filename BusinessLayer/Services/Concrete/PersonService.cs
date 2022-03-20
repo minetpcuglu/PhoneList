@@ -62,5 +62,38 @@ namespace BusinessLayer.Services.Concrete
 
             return list;
         }
+
+        public async Task<PersonDTO> GetById(int id)
+        {
+            if (id != 0)
+            {
+                var person = _personRepository.GetQueryable();
+
+                var result = new PersonDTO
+                {
+                    Id = id,
+                    FirstName = person.Where(x => x.Id == id).Select(x => x.FirstName).FirstOrDefault(),
+                    FullName = person.Where(x => x.Id == id).Select(x => x.FullName).FirstOrDefault(),
+                    LastName = person.Where(x => x.Id == id).Select(x => x.LastName).FirstOrDefault(),
+                     
+                };
+
+                return result;
+            }
+
+            return null;
+
+        }
+
+        public async Task Update(PersonDTO personDTO)
+        {
+            var value = _mapper.Map<PersonDTO, Person>(personDTO);
+            if (value.Id !=0)
+            {
+                await _unitOfWork.PersonRepository.Update(value);
+                await _unitOfWork.SaveChangesAsync();
+
+            }
+        }
     }
 }
