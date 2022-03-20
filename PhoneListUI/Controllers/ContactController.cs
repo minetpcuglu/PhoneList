@@ -11,8 +11,10 @@ namespace PhoneListUI.Controllers
     public class ContactController : Controller
     {
         private readonly IContactService _contactServices;
-        public ContactController(IContactService contactService)
+        private readonly ICityService _cityService;
+        public ContactController(IContactService contactService,ICityService cityService)
         {
+            _cityService = cityService;
             _contactServices = contactService;
         }
         public IActionResult Index()
@@ -21,10 +23,23 @@ namespace PhoneListUI.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetByContactInfo(int id)
+        {
+            var result = await _contactServices.GetByIdContactInfo(id);
+            return View(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create(int id)
         {
-
-            return View();
+            var valueCity = await _cityService.CityList();
+            ContactDTO contactDTO = new ContactDTO
+            {
+                PersonId = id,
+                Cities = valueCity
+             
+            };
+            return View(contactDTO);
         }
         [HttpPost]
         public async Task<IActionResult> Create(ContactDTO contact)

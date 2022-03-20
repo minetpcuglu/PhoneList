@@ -35,10 +35,14 @@ namespace PhoneListUI
 
             #region IoC
             services.AddScoped<IPersonService, PersonService>(); /// dý 
+            services.AddScoped<IContactService, ContactService>(); /// dý 
+            services.AddScoped<ICityService, CityService>(); /// dý 
             #endregion
             services.AddControllersWithViews();
             #region AutoMapper
             services.AddAutoMapper(typeof(PersonMapping));
+            services.AddAutoMapper(typeof(ContactMapping));
+            services.AddAutoMapper(typeof(CityMapping));
            
             #endregion
         }

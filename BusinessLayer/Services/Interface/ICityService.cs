@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Services.Interface
 {
-   public interface IContactService
+   public interface ICityService
     {
-        Task Add(ContactDTO contactDTO);
-        Task<ContactDTO> GetByIdContact(int id);
-        Task<List<ContactDTO>> GetByIdContactInfo(int id);
+        Task<List<CityDTO>> CityList();
     }
 }

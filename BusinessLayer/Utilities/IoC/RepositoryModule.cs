@@ -15,10 +15,11 @@ namespace BusinessLayer.Utilities.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<ContactRepository>().As<IContactRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<CityRepository>().As<ICityRepository>().InstancePerLifetimeScope();
             builder.RegisterType<PersonRepository>().As<IPersonRepository>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            //builder.RegisterType<ContactRepository>().As<IContactRepository>().InstancePerLifetimeScope();
-            //builder.RegisterType<CityRepository>().As<ICityRepository>().InstancePerLifetimeScope();
+     
 
 
 

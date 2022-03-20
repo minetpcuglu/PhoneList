@@ -62,5 +62,29 @@ namespace BusinessLayer.Services.Concrete
             }
             return null;
         }
+
+        public async Task<List<ContactDTO>> GetByIdContactInfo(int id)
+        {
+            if (id != 0)
+            {
+                var contactInfo = await _contactRepository.GetFilteredList(
+                    selector: x => new ContactDTO
+                    {
+                        Id = x.Id,
+                        EMail = x.EMail,
+                        PhoneNumber = x.PhoneNumber,
+                        CityId = x.City.Id,
+                        CityName = x.City.Name,
+                        PersonId = x.Person.Id,
+                        FullName = x.Person.FullName
+                    },
+                    expression: x => x.PersonId == id ,
+                    inculude: x => x.Include(x => x.City),
+                    thenInculude: x => x.Include(x => x.Person)
+                    );
+                return contactInfo;
+            }
+            return null;
+        }
     }
 }
