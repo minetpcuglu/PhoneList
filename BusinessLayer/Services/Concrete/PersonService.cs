@@ -75,14 +75,12 @@ namespace BusinessLayer.Services.Concrete
                     FirstName = person.Where(x => x.Id == id).Select(x => x.FirstName).FirstOrDefault(),
                     FullName = person.Where(x => x.Id == id).Select(x => x.FullName).FirstOrDefault(),
                     LastName = person.Where(x => x.Id == id).Select(x => x.LastName).FirstOrDefault(),
-                     
+
                 };
 
                 return result;
             }
-
             return null;
-
         }
 
         public async Task Update(PersonDTO personDTO)

@@ -32,39 +32,6 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Concrete
         public async Task<T> GetById(int id) => await _table.FindAsync(id);
 
         public async Task<List<T>> GetListAll(Expression<Func<T, bool>> filter) => await _table.Where(filter).ToListAsync();
-
-
-        public async Task<List<TResult>> GetFilteredList<TResult>(Expression<Func<T, TResult>> selector,
-                                                          Expression<Func<T, bool>> expression = null,
-                                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
-                                                          Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null,
-                                                          bool disableTracking = true, int pageIndex = 1, int pageSize = 3)
-        {
-            IQueryable<T> query = _table;
-            if (disableTracking) query = query.AsNoTracking();
-            if (include != null) query = include(query);
-            if (expression != null) query = query.Where(expression);
-            if (orderby != null) return await orderby(query).Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-            else return await query.Select(selector).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-        }
-
-        //public async Task Update(T t) =>  _context.Entry(t).State = EntityState.Modified; //********
-
-        public async Task<TResult> GetFilteredFirstOrDefault<TResult>(Expression<Func<T, TResult>> selector,// => ilk paramatre Entity tipince olacak ikinci aldığı parametre ise dönüş tipide TResult olacak.
-                                                               Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, // ilk parametredeki verinin bool tipinde dönmesini sağlayacaktır.
-                                                               IOrderedQueryable<T>> orderby = null, Func<IQueryable<T>, // öğeleri bir düzene göre sıralar.
-                                                               IIncludableQueryable<T, object>> inculude = null,// Tanımlanan öğeyi içerip içermediğini kontrol eder.
-                                                               bool disableTracking = true)
-        {
-            IQueryable<T> query = _table; //=> Sorgu geldikçe Db den ye gidip gelecek.
-
-            if (disableTracking) query = query.AsNoTracking(); // => disableTracking varlık üzerinde ki değişiklikleri kontrol edip Save'e gönderiyoru. Biz filtreleme yaptığımızdan filtreleyip gönderiyoruz. Burada disableTracking'e gerek olmadığı için kapattık.
-            if (inculude != null) query = inculude(query); // => include edilen nesneleri query'e attık.
-            if (expression != null) query = query.Where(expression); // => expression ile gelenleri linq to sorgusu yazılması için Where sorgusunu query'e attık.
-            if (orderby != null) return await orderby(query).Select(selector).FirstOrDefaultAsync(); // => Gelen orderby sorgusu dolu ise bu şart çalışacak.
-            else return await query.Select(selector).FirstOrDefaultAsync(); // => şayet Null geliyorsa da bu satır çalışsın.
-        }
-
         public async Task Update(T t)
         {
             _table.Update(t);
@@ -91,5 +58,43 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Concrete
         public IQueryable<T> GetQueryable()
            => _table.AsQueryable()
                .AsNoTracking();
+
+
+        public async Task<TResult> GetFilteredFirstOrDefault<TResult>(Expression<Func<T, TResult>> selector,
+                                                                Expression<Func<T, bool>> expression = null, Func<IQueryable<T>,
+                                                                IOrderedQueryable<T>> orderby = null, Func<IQueryable<T>,
+                                                                IIncludableQueryable<T, object>> inculude = null,
+                                                                Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInculude = null,
+                                                                bool disableTracking = true)
+        {
+            IQueryable<T> query =_table;
+
+            if (disableTracking) query = query.AsNoTracking();
+            if (inculude != null) query = inculude(query);
+            if (expression != null) query = query.Where(expression);
+            if (orderby != null) return await orderby(query).Select(selector).FirstOrDefaultAsync();
+            else return await query.Select(selector).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<TResult>> GetFilteredList<TResult>(Expression<Func<T, TResult>> selector,
+                                                            Expression<Func<T, bool>> expression = null,
+                                                            Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,
+                                                            Func<IQueryable<T>, IIncludableQueryable<T, object>> inculude = null,
+                                                            Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInculude = null,
+                                                            bool disableTracking = true)
+        {
+            IQueryable<T> query = _table;
+            if (disableTracking) query = query.AsNoTracking();
+            if (inculude != null) query = inculude(query);
+            if (thenInculude != null) query = thenInculude(query);
+            if (expression != null) query = query.Where(expression);
+            if (orderby != null) return await orderby(query).Select(selector).ToListAsync();
+            else return await query.Select(selector).ToListAsync();
+        }
+
+        public Task<List<TResult>> GetFilteredList<TResult>(Expression<Func<T, TResult>> selector, Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> thenInculude = null, bool disableTracing = true, int pageIndex = 1, int pageSize = 3)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

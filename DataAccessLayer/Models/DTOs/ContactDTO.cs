@@ -15,6 +15,7 @@ namespace DataAccessLayer.Models.DTOs
         public  int PersonId { get; set; }
         public  int CityId { get; set; }
         public  string CityName { get; set; }
+        public List<CityDTO> Cities { get; set; }
 
     }
 }
