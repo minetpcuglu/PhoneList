@@ -47,5 +47,15 @@ namespace PhoneListUI.Controllers
             await _contactServices.Add(contact);
             return RedirectToAction("GetList");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            var value = await _contactServices.GetByIdContact(id);
+            var cityvalue = await _cityService.CityList();
+            value.Cities = cityvalue;
+            return View(value);
+        }
     }
 }
