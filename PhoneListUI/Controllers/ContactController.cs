@@ -23,9 +23,9 @@ namespace PhoneListUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByContactInfo(int id)
+        public async Task<IActionResult> GetByContactInfo(int personId)
         {
-            var result = await _contactServices.GetByIdContactInfo(id);
+            var result = await _contactServices.GetByIdContactInfo(personId);
             return View(result);
         }
 
