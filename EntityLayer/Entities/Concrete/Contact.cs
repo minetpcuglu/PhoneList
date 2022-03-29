@@ -18,5 +18,6 @@ namespace EntityLayer.Entities.Concrete
 
         public virtual City City { get; set; }
         public int CityId { get; set; }
+      
     }
 }

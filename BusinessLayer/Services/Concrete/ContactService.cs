@@ -54,7 +54,7 @@ namespace BusinessLayer.Services.Concrete
                         PersonId = x.Person.Id,
                         //FullName = x.Person.FullName
                     },
-                    expression: x => x.PersonId == id ,
+                    expression: x => x.Id == id ,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
                     );
@@ -63,9 +63,9 @@ namespace BusinessLayer.Services.Concrete
             return null;
         }
 
-        public async Task<List<ContactDTO>> GetByIdContactInfo(int id)
+        public async Task<List<ContactDTO>> GetByIdContactInfo(int personId)
         {
-            if (id != 0)
+            if (personId != 0)
             {
                 var contactInfo = await _contactRepository.GetFilteredList(
                     selector: x => new ContactDTO
@@ -78,13 +78,40 @@ namespace BusinessLayer.Services.Concrete
                         PersonId = x.Person.Id,
                         FullName = x.Person.FullName
                     },
-                    expression: x => x.PersonId == id ,
+                    expression: x => x.PersonId == personId,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
                     );
                 return contactInfo;
             }
             return null;
+        }
+
+        public async Task<bool> Update(ContactDTO contactDTO)
+        {
+            if (contactDTO != null)
+            {
+                //var result = new Contact(contactDTO.Id, contactDTO.EMail, contactDTO.PhoneNumber, contactDTO.PersonId, contactDTO.CityId);
+                var updateContact = _mapper.Map<ContactDTO, Contact>(contactDTO);
+
+                try
+                {
+                    await _contactRepository.Update(updateContact);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+
+                return true;
+               
+            } 
+            return false;
+
+      
         }
     }
 }

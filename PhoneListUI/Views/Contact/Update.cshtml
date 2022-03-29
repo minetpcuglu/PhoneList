@@ -17,6 +17,7 @@
                 </div>
                 <div class="card-body">
                     <form id="form_validation" asp-action="Update" method="POST" novalidate="novalidate">
+                        <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="PersonId" />
                         <div class="form-group row">
                             <div class="col-sm-2">
@@ -63,17 +64,4 @@
 
 
 
-<style type="text/css">
-
-    #open {
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .container-fluid {
-        display: flex;
-        justify-content: center;
-        padding-top: 2%;
-    }
-</style>
 

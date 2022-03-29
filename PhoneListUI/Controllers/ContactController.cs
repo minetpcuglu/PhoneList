@@ -57,5 +57,12 @@ namespace PhoneListUI.Controllers
             value.Cities = cityvalue;
             return View(value);
         }
+        [HttpPost]
+        public async Task<IActionResult> Update(ContactDTO contact)
+        {
+            await _contactServices.Update(contact);
+            var result = await _contactServices.GetByIdContactInfo(contact.PersonId);
+            return View("GetByContactInfo", result);
+        }
     }
 }

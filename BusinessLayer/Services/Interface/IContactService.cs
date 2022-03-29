@@ -11,6 +11,7 @@ namespace BusinessLayer.Services.Interface
     {
         Task Add(ContactDTO contactDTO);
         Task<ContactDTO> GetByIdContact(int id);
-        Task<List<ContactDTO>> GetByIdContactInfo(int id);
+        Task<List<ContactDTO>> GetByIdContactInfo(int personId);
+        Task<bool> Update(ContactDTO contactDTO);
     }
 }
