@@ -13,12 +13,15 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Interface
     public interface IBaseRepositories<T> where T : class
     {
         Task Insert(T t);
-        void Delete(T t);
+        Task Delete(T t);
         Task Update(T t);
+        Task<T> Update2(T t);
         IQueryable<T> GetQueryable();
         Task<T> FirstOrDefault(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAll(); // Asenkron programlama yapmak istediğimiz methodlarımızı "TASK" olarak işaretlenir.
         Task<List<T>> GetListAll(Expression<Func<T, bool>> filter);  //filter 
+        //Task<T> GetAsync(Expression<Func<T, bool>> filter);
+        //IQueryable<T> Active { get; }
         Task<T> Get(Expression<Func<T, bool>> filter);  //dışarıdann bir şart alıcak
 
         //Task<bool> Any(Expression<Func<T, bool>> expression);
@@ -39,6 +42,7 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Interface
                                                      bool disableTracking = true);
 
         Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
+        Task<T> GetAsync2(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetById(int id);
     }
 }

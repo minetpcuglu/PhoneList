@@ -14,6 +14,8 @@ namespace DataAccessLayer.Models.DTOs
         public string FullName { get; set; }
         public  int PersonId { get; set; }
         public  int CityId { get; set; }
+        public bool Status { get; set; } = true;
+        public virtual bool IsDeleted { get; set; } = false;
         public  string CityName { get; set; }
         public List<CityDTO> Cities { get; set; }
 

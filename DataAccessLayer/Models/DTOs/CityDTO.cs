@@ -10,5 +10,7 @@ namespace DataAccessLayer.Models.DTOs
     {
         public int Id { get; set; }
         public string CityName { get; set; }
+        public bool Status { get; set; }
+        public virtual bool IsDeleted { get; set; } = false;
     }
 }

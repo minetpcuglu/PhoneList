@@ -16,7 +16,6 @@ namespace DataAccessLayer.Mapping.Concrete
             builder.HasKey(x => x.Id);
             builder.Property(u => u.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Name).HasMaxLength(150).IsRequired(true);
-
             builder.ToTable("Cities");
         }
     }

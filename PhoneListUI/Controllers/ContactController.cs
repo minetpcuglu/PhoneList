@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Services.Interface;
 using DataAccessLayer.Models.DTOs;
+using DataAccessLayer.Models.VMs;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,9 @@ namespace PhoneListUI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByContactInfo(int personId)
+        public async Task<IActionResult> GetByContactInfo(int id)
         {
-            var result = await _contactServices.GetByIdContactInfo(personId);
+            var result = await _contactServices.GetByIdContactInfo(id);
             return View(result);
         }
 
@@ -45,7 +46,8 @@ namespace PhoneListUI.Controllers
         public async Task<IActionResult> Create(ContactDTO contact)
         {
             await _contactServices.Add(contact);
-            return RedirectToAction("GetList");
+        
+            return RedirectToAction("GetList","Person");
         }
 
 
@@ -63,6 +65,16 @@ namespace PhoneListUI.Controllers
             await _contactServices.Update(contact);
             var result = await _contactServices.GetByIdContactInfo(contact.PersonId);
             return View("GetByContactInfo", result);
+        }
+
+     
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id != 0)
+            {
+                var result = await _contactServices.DeleteAsync(id);
+            }
+            return RedirectToAction("GetList","Person");
         }
     }
 }

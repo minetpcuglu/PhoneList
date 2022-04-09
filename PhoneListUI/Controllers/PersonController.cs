@@ -21,6 +21,7 @@ namespace PhoneListUI.Controllers
         public async Task<IActionResult> GetList()
         {
             var result = await _personServices.GetAll();
+            
             return View(result);
         }
 
@@ -32,20 +33,10 @@ namespace PhoneListUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PersonDTO person)
         {
+          
             await _personServices.Add(person);
             return RedirectToAction("GetList");
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    if (id != 0)
-        //    {
-        //       await _personServices.Delete(id);
-        //        return RedirectToAction("GetList");
-        //    }
-        //    return BadRequest();
-        //}
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
@@ -84,5 +75,6 @@ namespace PhoneListUI.Controllers
             await _personServices.Update(person);
             return RedirectToAction("GetList");
         }
+
     }
 }

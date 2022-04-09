@@ -34,6 +34,7 @@ namespace BusinessLayer.Services.Concrete
             if (personDTO != null)
             {
                 var addPerson = _mapper.Map<PersonDTO, Person>(personDTO);
+                addPerson.Status = true;
                 await _unitOfWork.PersonRepository.Insert(addPerson);
                 await _unitOfWork.Commit();
             }
@@ -45,6 +46,8 @@ namespace BusinessLayer.Services.Concrete
             if (id != 0)
             {
                 var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
+                deletePerson.Status = false;
+                deletePerson.IsDeleted = true;
                 _unitOfWork.PersonRepository.Delete(deletePerson);
                 await _unitOfWork.Commit();
                 return true;
@@ -62,8 +65,9 @@ namespace BusinessLayer.Services.Concrete
                     LastName = x.LastName,
                     FullName = x.FullName,
 
+
                     ContactDTOs = x.Contacts.Select(y => new ContactDTO { CityId = y.Id, EMail = y.EMail, PhoneNumber = y.PhoneNumber }).ToList()
-                });
+                }, expression: x => x.Status == true);
 
             return list;
         }
@@ -93,6 +97,7 @@ namespace BusinessLayer.Services.Concrete
             var value = _mapper.Map<PersonDTO, Person>(personDTO);
             if (value.Id != 0)
             {
+                value.Status = true;
                 await _unitOfWork.PersonRepository.Update(value);
                 await _unitOfWork.SaveChangesAsync();
 

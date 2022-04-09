@@ -14,7 +14,7 @@ namespace DataAccessLayer.Mapping.Concrete
         public void Configure(EntityTypeBuilder<Contact> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.Property(u => u.Id).ValueGeneratedOnAdd();
+            builder.Property(u => u.Id).ValueGeneratedOnAdd(); //Bu metot ise Identity Spesification alanını aktif hale getirir. Tanımlanan alanı 1 er 1er artma işlemini sağlar.
             builder.Property(x => x.EMail).HasMaxLength(150).IsRequired(true);
             builder.Property(x => x.PhoneNumber).HasMaxLength(11).IsRequired(true);
 

@@ -34,10 +34,31 @@ namespace BusinessLayer.Services.Concrete
             if (contactDTO != null)
             {
                 var addContact = _mapper.Map<ContactDTO, Contact>(contactDTO);
-                await _unitOfWork.ContactRepository.Insert(addContact);
+                addContact.Status = true;
+
+                try
+                {
+                    await _contactRepository.Insert(addContact);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
                 await _unitOfWork.Commit();
             }
         }
+
+        //public async Task<bool> Delete(int id)
+        //{
+        //    //if (id != 0)
+        //    //{
+
+        //    //    await _contactRepository.Delete(id);
+        //    //    return true;
+        //    //}
+        //    return false;
+        //}
 
         public async Task<ContactDTO> GetByIdContact(int id)
         {
@@ -46,18 +67,20 @@ namespace BusinessLayer.Services.Concrete
                 var contactInfo = await _contactRepository.GetFilteredFirstOrDefault(
                     selector: x => new ContactDTO
                     {
-                        Id = x.Id,
+                        Id = x.PersonId,
                         EMail = x.EMail,
                         PhoneNumber = x.PhoneNumber,
                         CityId = x.City.Id,
-                        //CityName = x.City.Name,
+                        CityName = x.City.Name,
                         PersonId = x.Person.Id,
-                        //FullName = x.Person.FullName
+                        FullName = x.Person.FullName
+
                     },
-                    expression: x => x.Id == id ,
+                    expression: x => x.PersonId == id && x.Status == true,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
-                    );
+                    ) ;
+               
                 return contactInfo;
             }
             return null;
@@ -70,7 +93,7 @@ namespace BusinessLayer.Services.Concrete
                 var contactInfo = await _contactRepository.GetFilteredList(
                     selector: x => new ContactDTO
                     {
-                        Id = x.Id,
+                        Id = x.PersonId,
                         EMail = x.EMail,
                         PhoneNumber = x.PhoneNumber,
                         CityId = x.City.Id,
@@ -78,7 +101,7 @@ namespace BusinessLayer.Services.Concrete
                         PersonId = x.Person.Id,
                         FullName = x.Person.FullName
                     },
-                    expression: x => x.PersonId == personId,
+                    expression: x => x.PersonId == personId && x.Status == true,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
                     );
@@ -93,6 +116,7 @@ namespace BusinessLayer.Services.Concrete
             {
                 //var result = new Contact(contactDTO.Id, contactDTO.EMail, contactDTO.PhoneNumber, contactDTO.PersonId, contactDTO.CityId);
                 var updateContact = _mapper.Map<ContactDTO, Contact>(contactDTO);
+                updateContact.Status = true;
 
                 try
                 {
@@ -111,7 +135,27 @@ namespace BusinessLayer.Services.Concrete
             } 
             return false;
 
-      
+
         }
+
+
+        //public async Task<ContactDTO> DeleteAsync(int contactId)
+        public async Task<bool> DeleteAsync(int contactId)
+        {
+            var contact = await _unitOfWork.ContactRepository.GetAsync(c => c.Id == contactId);
+            if (contact != null)
+            {
+                contact.IsDeleted = true;
+                contact.Status = false;
+
+                await _unitOfWork.ContactRepository.Update(contact);
+                await _unitOfWork.SaveChangesAsync();
+
+                return true;
+            }
+            return false;
+         
+        }
+
     }
 }

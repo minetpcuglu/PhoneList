@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,12 @@ namespace EntityLayer.Entities.Concrete
 {
    public class Contact
     {
+        [Key]
         public int Id { get; set; }
         public string EMail { get; set; }
         public string PhoneNumber { get; set; }
+        public bool Status { get; set; }
+        public virtual bool IsDeleted { get; set; } = false;
 
         /*İlişkiler*/
         public virtual Person Person { get; set; }
