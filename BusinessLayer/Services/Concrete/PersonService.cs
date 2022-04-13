@@ -5,6 +5,7 @@ using DataAccessLayer.Context;
 using DataAccessLayer.Models.DTOs;
 using DataAccessLayer.UnitOfWorks.Interface;
 using EntityLayer.Entities.Concrete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,20 @@ namespace BusinessLayer.Services.Concrete
     {
 
         private readonly IPersonRepository _personRepository;
+        private readonly ICityRepository _cityRepository;
+        private readonly IContactRepository _contactRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private ApplicationDbContext _context;
 
-        public PersonService(IUnitOfWork unitOfWork, IPersonRepository personRepository, ApplicationDbContext applicationDbContext, IMapper mapper)
+        public PersonService(IUnitOfWork unitOfWork, IPersonRepository personRepository, ApplicationDbContext applicationDbContext, IMapper mapper, ICityRepository cityRepository, IContactRepository contactRepository)
         {
             _mapper = mapper;
             _context = applicationDbContext;
             _unitOfWork = unitOfWork;
             _personRepository = personRepository;
+            _cityRepository = cityRepository;
+            _contactRepository = contactRepository;
 
         }
         public async Task Add(PersonDTO personDTO)
@@ -90,6 +95,39 @@ namespace BusinessLayer.Services.Concrete
                 return result;
             }
             return null;
+        }
+
+        public async Task<List<LocationReportDTO>> GetPersonLocationReport()
+        {
+            var contact = await _cityRepository.GetQueryable().Include(x => x.Contacts).ToListAsync();
+
+            var getres = contact.SelectMany(x => x.Contacts).Select(x => new LocationReportDTO
+            {
+                Location = x.City.Name,
+                Id = x.City.Id
+            });
+
+            var result = getres.GroupBy(x => x.Location).ToList();
+            List<LocationReportDTO> listModel = new List<LocationReportDTO>();
+
+            foreach (var item in result)
+            {
+                var newModel = new LocationReportDTO();
+                newModel.Location = item.Key;
+                newModel.TotalLocation = item.Count();
+                listModel.Add(newModel);
+            }
+
+            var list = listModel.OrderByDescending(x => x.TotalLocation).ToList();
+
+            return list;
+        }
+
+        public async Task<int> PhoneToCityReport(int id)
+        {
+            var query = _contactRepository.GetQueryable().Where(x => x.CityId == id).ToList().Count;
+
+            return query;
         }
 
         public async Task Update(PersonDTO personDTO)

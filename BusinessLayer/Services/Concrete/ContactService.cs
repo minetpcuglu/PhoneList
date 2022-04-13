@@ -76,7 +76,7 @@ namespace BusinessLayer.Services.Concrete
                         FullName = x.Person.FullName
 
                     },
-                    expression: x => x.PersonId == id && x.Status == true,
+                    expression: x => x.PersonId== id && x.Status == true,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
                     ) ;

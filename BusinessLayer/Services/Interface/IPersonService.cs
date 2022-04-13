@@ -12,7 +12,8 @@ namespace BusinessLayer.Services.Interface
         Task<List<PersonDTO>> GetAll();
         Task Add(PersonDTO personDTO);
         Task<bool> Delete(int id);
-       
+        Task<List<LocationReportDTO>> GetPersonLocationReport();
+        public Task<int> PhoneToCityReport(int id);
         Task<PersonDTO> GetById(int id);
         Task Update(PersonDTO personDTO);
 

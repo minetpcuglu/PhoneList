@@ -76,5 +76,13 @@ namespace PhoneListUI.Controllers
             return RedirectToAction("GetList");
         }
 
+        //konuma göre rapor getirme
+        [HttpGet]
+        public async Task<IActionResult> PersonLocationReport()
+        {
+            var person = await _personServices.GetPersonLocationReport();
+            return View(person);
+        }
+
     }
 }
