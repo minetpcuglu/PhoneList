@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityLayer", "EntityLayer\EntityLayer.csproj", "{89EA22D8-E9E7-48EC-AF16-E07B6A927F52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneListAPI", "PhoneListAPI\PhoneListAPI.csproj", "{C31A5DBC-C11E-4E87-BB2E-C4E8D83C1378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneListWebAPI", "PhoneListWebAPI\PhoneListWebAPI.csproj", "{38270420-7128-4C46-9056-C50D39D1225F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{89EA22D8-E9E7-48EC-AF16-E07B6A927F52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89EA22D8-E9E7-48EC-AF16-E07B6A927F52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89EA22D8-E9E7-48EC-AF16-E07B6A927F52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C31A5DBC-C11E-4E87-BB2E-C4E8D83C1378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C31A5DBC-C11E-4E87-BB2E-C4E8D83C1378}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C31A5DBC-C11E-4E87-BB2E-C4E8D83C1378}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C31A5DBC-C11E-4E87-BB2E-C4E8D83C1378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38270420-7128-4C46-9056-C50D39D1225F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38270420-7128-4C46-9056-C50D39D1225F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38270420-7128-4C46-9056-C50D39D1225F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38270420-7128-4C46-9056-C50D39D1225F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
