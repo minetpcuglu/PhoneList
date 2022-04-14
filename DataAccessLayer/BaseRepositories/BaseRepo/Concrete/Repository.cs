@@ -131,5 +131,11 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Concrete
             return t;
 
         }
+
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
+
     }
 }

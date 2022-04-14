@@ -142,19 +142,19 @@ namespace BusinessLayer.Services.Concrete
         //public async Task<ContactDTO> DeleteAsync(int contactId)
         public async Task<bool> DeleteAsync(int contactId)
         {
-            var contact = await _unitOfWork.ContactRepository.GetAsync(c => c.Id == contactId);
-            if (contact != null)
+            var result = await _unitOfWork.ContactRepository.AnyAsync(a => a.Id == contactId);
+            if (result == true)
             {
-                contact.IsDeleted = true;
-                contact.Status = false;
+                var person = await _unitOfWork.PersonRepository.GetAsync2(a => a.Id == contactId);
+                person.IsDeleted = true;
+                person.Status = false;
 
-                await _unitOfWork.ContactRepository.Update(contact);
+                await _unitOfWork.PersonRepository.Update(person);
                 await _unitOfWork.SaveChangesAsync();
-
                 return true;
             }
+
             return false;
-         
         }
 
     }

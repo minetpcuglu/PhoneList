@@ -43,7 +43,7 @@ namespace PhoneListUI.Controllers
         {
             if (id != 0)
             {
-                var result = await _personServices.Delete(id);
+                var result = await _personServices.DeleteAsync(id);
                 if (result)
                 {
                     return Json(new ToastViewModel

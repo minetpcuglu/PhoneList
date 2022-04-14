@@ -20,13 +20,8 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Interface
         Task<T> FirstOrDefault(Expression<Func<T, bool>> expression);
         Task<List<T>> GetAll(); // Asenkron programlama yapmak istediğimiz methodlarımızı "TASK" olarak işaretlenir.
         Task<List<T>> GetListAll(Expression<Func<T, bool>> filter);  //filter 
-        //Task<T> GetAsync(Expression<Func<T, bool>> filter);
-        //IQueryable<T> Active { get; }
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate); //Veritabanına kaydetmek istediğimiz nesneleri daha önceden varmı sorgulamak için oluşturulmuştur.
         Task<T> Get(Expression<Func<T, bool>> filter);  //dışarıdann bir şart alıcak
-
-        //Task<bool> Any(Expression<Func<T, bool>> expression);
-
-
         Task<TResult> GetFilteredFirstOrDefault<TResult>(Expression<Func<T, TResult>> selector,
                                                         Expression<Func<T, bool>> expression = null,
                                                         Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null,

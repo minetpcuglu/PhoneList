@@ -16,6 +16,8 @@ namespace BusinessLayer.Services.Interface
         public Task<int> PhoneToCityReport(int id);
         Task<PersonDTO> GetById(int id);
         Task Update(PersonDTO personDTO);
+        Task<bool> DeleteAsync(int personId);
+        //Task<List<PersonDTO>> GetAsync(int articleId);
 
         //Task<bool> Delete(int id);
     }

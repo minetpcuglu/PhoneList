@@ -14,6 +14,7 @@ namespace BusinessLayer.Services.Interface
         //Task<bool> Delete(int id);
         //Task<ContactDTO> DeleteAsync(int contactId);
         Task<bool> DeleteAsync(int contactId);
+   
         Task<List<ContactDTO>> GetByIdContactInfo(int personId);
         //Task<List<PersonDTO>> GetByIdContactInfo(int personId);
         Task<bool> Update(ContactDTO contactDTO);

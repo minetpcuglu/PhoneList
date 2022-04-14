@@ -141,5 +141,43 @@ namespace BusinessLayer.Services.Concrete
 
             }
         }
+
+        public async Task<bool> DeleteAsync(int personId)
+        {
+            var result = await _unitOfWork.PersonRepository.AnyAsync(a => a.Id == personId);
+            if (result == true)
+            {
+                var person = await _unitOfWork.PersonRepository.GetAsync2(a => a.Id == personId);
+                person.IsDeleted = true;
+                person.Status = false;
+
+                await _unitOfWork.PersonRepository.Update(person);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        //public async Task<IDataResult<ArticleDto>> GetAsync(int articleId)
+        //{
+
+        //    var article = await UnitOfWork.Articles.GetAsync(a => a.Id == articleId, a => a.User, a => a.Category);
+
+        //    if (article != null)
+        //    {
+        //        article.Comments = await UnitOfWork.Comments.GetAllAsync(c => c.ArticleId == articleId && !c.IsDeleted && c.IsActive);
+        //        return new DataResult<ArticleDto>(ResultStatus.Success, new ArticleDto
+        //        {
+        //            Article = article,
+        //            ResultStatus = ResultStatus.Success
+
+        //        });
+        //    }
+
+        //    return new DataResult<ArticleDto>(ResultStatus.Error, message: Messages.Article.NotFound(false), data: null);
+
+        //}
+
     }
 }
