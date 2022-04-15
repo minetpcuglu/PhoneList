@@ -1,3 +1,7 @@
+using BusinessLayer.Services.Concrete;
+using BusinessLayer.Services.Interface;
+using BusinessLayer.Utilities.AutoMapper;
+using DataAccessLayer.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,8 +31,6 @@ namespace PhoneListWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-        
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -45,6 +47,21 @@ namespace PhoneListWebAPI
                     .AllowCredentials()
                 .Build());
             });
+
+            services.AddTransient<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
+            #endregion
+
+            #region IoC
+            services.AddScoped<IPersonService, PersonService>(); /// dý 
+            services.AddScoped<IContactService, ContactService>(); /// dý 
+            services.AddScoped<ICityService, CityService>(); /// dý 
+            #endregion
+            services.AddControllersWithViews();
+            #region AutoMapper
+            services.AddAutoMapper(typeof(PersonMapping));
+            services.AddAutoMapper(typeof(ContactMapping));
+            services.AddAutoMapper(typeof(CityMapping));
 
             #endregion
         }

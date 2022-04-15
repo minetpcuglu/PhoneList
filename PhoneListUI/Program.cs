@@ -20,16 +20,10 @@ namespace PhoneListUI
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-             Host.CreateDefaultBuilder(args)
-
-             .UseServiceProviderFactory(new AutofacServiceProviderFactory()) // projenin yaþam sürelerini autofac ile belleðe kaydetme 
-             .ConfigureContainer<ContainerBuilder>(builder =>
-             {
-                 builder.RegisterModule(new RepositoryModule());
-             })
-                 .ConfigureWebHostDefaults(webBuilder =>
-                 {
-                     webBuilder.UseStartup<Startup>();
-                 });
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

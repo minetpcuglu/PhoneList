@@ -28,23 +28,8 @@ namespace PhoneListUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region context
-            services.AddTransient<ApplicationDbContext>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
-            #endregion
-
-            #region IoC
-            services.AddScoped<IPersonService, PersonService>(); /// dý 
-            services.AddScoped<IContactService, ContactService>(); /// dý 
-            services.AddScoped<ICityService, CityService>(); /// dý 
-            #endregion
+            services.AddControllers();
             services.AddControllersWithViews();
-            #region AutoMapper
-            services.AddAutoMapper(typeof(PersonMapping));
-            services.AddAutoMapper(typeof(ContactMapping));
-            services.AddAutoMapper(typeof(CityMapping));
-           
-            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,9 +49,6 @@ namespace PhoneListUI
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-            app.UseAuthentication(); //DI
 
             app.UseEndpoints(endpoints =>
             {
