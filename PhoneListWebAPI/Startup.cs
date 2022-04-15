@@ -47,22 +47,26 @@ namespace PhoneListWebAPI
                     .AllowCredentials()
                 .Build());
             });
+            #endregion
 
+            #region Context
             services.AddTransient<ApplicationDbContext>();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
             #endregion
+            
 
             #region IoC
             services.AddScoped<IPersonService, PersonService>(); /// dý 
             services.AddScoped<IContactService, ContactService>(); /// dý 
             services.AddScoped<ICityService, CityService>(); /// dý 
             #endregion
+
             services.AddControllersWithViews();
+
             #region AutoMapper
             services.AddAutoMapper(typeof(PersonMapping));
             services.AddAutoMapper(typeof(ContactMapping));
             services.AddAutoMapper(typeof(CityMapping));
-
             #endregion
         }
 
