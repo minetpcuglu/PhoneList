@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PhoneListWebAPI.DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,16 +27,26 @@ namespace PhoneListWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region context
-            services.AddTransient<APIContext>();
-            services.AddDbContext<APIContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); //uygulamaya geliþtirdiðimiz context nesnesi DbContext olarak tanýtýlmaktadýr.
-            #endregion
+        
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PhoneListWebAPI", Version = "v1" });
             });
+            #region CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .SetIsOriginAllowed(_ => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                .Build());
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +63,10 @@ namespace PhoneListWebAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app
+            .UseCors("CorsPolicy")
+            .UseAuthentication()
+            .UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
