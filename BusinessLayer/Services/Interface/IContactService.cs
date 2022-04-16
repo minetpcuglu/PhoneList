@@ -9,7 +9,7 @@ namespace BusinessLayer.Services.Interface
 {
    public interface IContactService
     {
-        Task Add(ContactDTO contactDTO);
+        Task<bool> Add(ContactDTO contactDTO);
         Task<ContactDTO> GetByIdContact(int id);
         //Task<bool> Delete(int id);
         //Task<ContactDTO> DeleteAsync(int contactId);

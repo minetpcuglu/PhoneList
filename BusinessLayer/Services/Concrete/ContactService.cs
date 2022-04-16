@@ -29,7 +29,7 @@ namespace BusinessLayer.Services.Concrete
             _contactRepository = contactRepository;
 
         }
-        public async Task Add(ContactDTO contactDTO)
+        public async Task<bool> Add(ContactDTO contactDTO)
         {
             if (contactDTO != null)
             {
@@ -46,7 +46,9 @@ namespace BusinessLayer.Services.Concrete
                     throw;
                 }
                 await _unitOfWork.Commit();
+                return true;
             }
+            return false;
         }
 
         //public async Task<bool> Delete(int id)
@@ -93,7 +95,7 @@ namespace BusinessLayer.Services.Concrete
                 var contactInfo = await _contactRepository.GetFilteredList(
                     selector: x => new ContactDTO
                     {
-                        Id = x.PersonId,
+                        Id = x.Id,
                         EMail = x.EMail,
                         PhoneNumber = x.PhoneNumber,
                         CityId = x.City.Id,

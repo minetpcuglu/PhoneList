@@ -34,7 +34,7 @@ namespace BusinessLayer.Services.Concrete
             _contactRepository = contactRepository;
 
         }
-        public async Task Add(PersonDTO personDTO)
+        public async Task<bool> Add(PersonDTO personDTO)
         {
             if (personDTO != null)
             {
@@ -42,7 +42,9 @@ namespace BusinessLayer.Services.Concrete
                 addPerson.Status = true;
                 await _unitOfWork.PersonRepository.Insert(addPerson);
                 await _unitOfWork.Commit();
+                return true;
             }
+            return false;
 
         }
 

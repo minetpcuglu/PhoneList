@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PhoneListUI.Controllers
@@ -26,7 +27,7 @@ namespace PhoneListUI.Controllers
         {
             using (var client = new HttpClient())
             {
-                var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/GetList");
+                var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/GetList/");
                 var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
                 var values = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonString); //listelerken
                 return View(values);
@@ -35,18 +36,29 @@ namespace PhoneListUI.Controllers
             //return View(value);
         }
 
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Create(PersonDTO person)
-        //{
-          
-        //    await _personServices.Add(person);
-        //    return RedirectToAction("GetList");
-        //}
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PersonDTO person)
+        {
+            using (var client = new HttpClient())
+            {
+                var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
+                StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
+                var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
+                if (responseMessage.StatusCode==System.Net.HttpStatusCode.Created)
+                {
+                    return RedirectToAction("GetList");
+                }
+                ModelState.AddModelError("", "Ekleme işlemi başarısız");
+                return View(person);
+            }
+        }
 
         //[HttpPost]
         //public async Task<IActionResult> Delete(int id)

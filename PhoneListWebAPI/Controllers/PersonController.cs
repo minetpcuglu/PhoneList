@@ -23,9 +23,19 @@ namespace PhoneListWebAPI.Controllers
 
         [HttpGet]
         [Route("GetList")]
+        [ProducesResponseType(typeof(List<PersonDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetList()
         {
             return Ok(await _personServices.GetAll());
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Create([FromBody] PersonDTO person)
+        {
+            return Ok(await _personServices.Add(person));
         }
     }
 
