@@ -32,10 +32,21 @@ namespace PhoneListWebAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Create([FromBody] PersonDTO person)
         {
             return Ok(await _personServices.Add(person));
+        }
+
+        [HttpDelete]
+        [Route("{id}/Delete")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _personServices.DeleteAsync(id);
+            return Ok(result);
         }
     }
 

@@ -48,19 +48,19 @@ namespace BusinessLayer.Services.Concrete
 
         }
 
-        public async Task<bool> Delete(int id)
-        {
-            if (id != 0)
-            {
-                var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
-                deletePerson.Status = false;
-                deletePerson.IsDeleted = true;
-                _unitOfWork.PersonRepository.Delete(deletePerson);
-                await _unitOfWork.Commit();
-                return true;
-            }
-            return false;
-        }
+        //public async Task<bool> Delete(int id)
+        //{
+        //    if (id != 0)
+        //    {
+        //        var deletePerson = await _unitOfWork.PersonRepository.Get(x => x.Id == id);
+        //        deletePerson.Status = false;
+        //        deletePerson.IsDeleted = true;
+        //        _unitOfWork.PersonRepository.Delete(deletePerson);
+        //        await _unitOfWork.Commit();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public async Task<List<PersonDTO>> GetAll()
         {

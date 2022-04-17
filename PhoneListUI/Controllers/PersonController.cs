@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Services.Interface;
+﻿
 using DataAccessLayer.Models.DTOs;
 using DataAccessLayer.Models.VMs;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +15,6 @@ namespace PhoneListUI.Controllers
 {
     public class PersonController : Controller
     {
-
-        //private readonly IPersonService _personServices;
-        //public PersonController(IPersonService personService)
-        //{
-        //    _personServices = personService;
-        //}
 
         [HttpGet]
         public async Task<IActionResult> GetList()
@@ -51,7 +45,7 @@ namespace PhoneListUI.Controllers
                 var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
                 StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
                 var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
-                if (responseMessage.StatusCode==System.Net.HttpStatusCode.Created)
+                if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     return RedirectToAction("GetList");
                 }
@@ -60,31 +54,35 @@ namespace PhoneListUI.Controllers
             }
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    if (id != 0)
-        //    {
-        //        var result = await _personServices.DeleteAsync(id);
-        //        if (result)
-        //        {
-        //            return Json(new ToastViewModel
-        //            {
-        //                Message = "silindi.",
-        //                Success = true
-        //            });
-        //        }
-        //        else
-        //        {
-        //            return Json(new ToastViewModel
-        //            {
-        //                Message = "İşlem Başarısız.",
-        //                Success = false
-        //            });
-        //        }
-        //    }
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id != 0)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var responseMessage = await httpClient.DeleteAsync("https://localhost:44337/api/Person/Delete/" + id);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        return Json(new ToastViewModel
+                        {
+                            Message = "silindi.",
+                            Success = true
+                        });
+
+                    }
+                    else
+                    {
+                        return Json(new ToastViewModel
+                        {
+                            Message = "İşlem Başarısız.",
+                            Success = false
+                        });
+                    }
+                }
+            }
+            return View();
+        }
         //[HttpGet]
         //public async Task<IActionResult>  Update(int id)
         //{

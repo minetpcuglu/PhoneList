@@ -101,10 +101,24 @@ namespace DataAccessLayer.BaseRepositories.BaseRepo.Concrete
 
         ////public IQueryable<T> Active => _table.Where(i => i).AsQueryable()
         ////       .AsNoTracking();
+        //public async Task Delete(T id)
+        //{
+        //    await Task.Run(() => { _context.Set<T>().Remove(id); });
+
+        //}
+
         public async Task Delete(T id)
         {
+            //var value =   Task.Run(() => { _context.Set<T>().Remove(id); });
+            //  if (value != null)
+            //  {
+            //      value.s = true;
+            //      entity.IsActive = false;
+            //      //dbSet.Update(entity);
+            //      dbContext.Entry(entity).State = EntityState.Modified;
+            //      await dbContext.SaveChangesAsync();
+            //  }
             await Task.Run(() => { _context.Set<T>().Remove(id); });
-
         }
 
         public async Task<T> GetAsync2(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
