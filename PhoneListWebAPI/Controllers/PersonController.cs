@@ -48,7 +48,24 @@ namespace PhoneListWebAPI.Controllers
             var result = await _personServices.DeleteAsync(id);
             return Ok(result);
         }
-    }
 
-   
+        [HttpPost]
+        [Route("Update")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Update([FromBody] PersonDTO person)
+        {
+            var result = await _personServices.Update(person);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("PersonLocationReport")]
+        [ProducesResponseType(typeof(List<PersonDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> PersonLocationReport()
+        {
+            return Ok(await _personServices.GetPersonLocationReport());
+        }
+    }
 }

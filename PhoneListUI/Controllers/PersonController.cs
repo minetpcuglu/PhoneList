@@ -40,18 +40,28 @@ namespace PhoneListUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PersonDTO person)
         {
-            using (var client = new HttpClient())
+            //using (var client = new HttpClient())
+            //{
+            //    var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
+            //    StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
+            //    var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
+            //    if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+            //    {
+            //        return RedirectToAction("GetList");
+            //    }
+            //    ModelState.AddModelError("", "Ekleme işlemi başarısız");
+            //    return View(person);
+            //}
+
+            HttpClient client = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(person), Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
+            if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
             {
-                var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
-                StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
-                var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
-                if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
-                {
-                    return RedirectToAction("GetList");
-                }
-                ModelState.AddModelError("", "Ekleme işlemi başarısız");
-                return View(person);
+                return RedirectToAction("GetList");
             }
+            ModelState.AddModelError("", "Ekleme işlemi başarısız");
+            return View(person);
         }
 
         [HttpPost]
@@ -83,6 +93,56 @@ namespace PhoneListUI.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            //var value = await _personServices.GetById(id);
+            //return View(value);
+            using (var httpClient = new HttpClient())
+            {
+                var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/Person/" + id);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var jsonPerson = await responseMessage.Content.ReadAsStringAsync();
+                    var value = JsonConvert.DeserializeObject<PersonDTO>(jsonPerson);
+                    return View(value);
+                }
+                return RedirectToAction("GetList");
+
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(PersonDTO person)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var value = JsonConvert.SerializeObject(person);
+                var content = new StringContent(value, Encoding.UTF8, "application/json");
+
+                var responseMessage = await httpClient.PostAsync("https://localhost:44363/api/Person/Update", content);
+
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("GetList");
+                }
+                return View(person);
+            }
+        }
+
+        ////konuma göre rapor getirme
+        [HttpGet]
+        public async Task<IActionResult> PersonLocationReport()
+        {
+            using (var client = new HttpClient())
+            {
+                var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/PersonLocationReport/");
+                var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
+                var values = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonString); //listelerken
+                return View(values);
+            }
+           
+        }
+
         //[HttpGet]
         //public async Task<IActionResult>  Update(int id)
         //{
@@ -103,6 +163,5 @@ namespace PhoneListUI.Controllers
         //    var person = await _personServices.GetPersonLocationReport();
         //    return View(person);
         //}
-
     }
 }

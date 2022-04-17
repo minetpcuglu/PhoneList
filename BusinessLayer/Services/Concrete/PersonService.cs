@@ -132,7 +132,7 @@ namespace BusinessLayer.Services.Concrete
             return query;
         }
 
-        public async Task Update(PersonDTO personDTO)
+        public async Task<bool> Update(PersonDTO personDTO)
         {
             var value = _mapper.Map<PersonDTO, Person>(personDTO);
             if (value.Id != 0)
@@ -140,8 +140,9 @@ namespace BusinessLayer.Services.Concrete
                 value.Status = true;
                 await _unitOfWork.PersonRepository.Update(value);
                 await _unitOfWork.SaveChangesAsync();
-
+                return true;
             }
+            return false;
         }
 
         public async Task<bool> DeleteAsync(int personId)
