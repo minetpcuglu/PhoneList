@@ -1,0 +1,69 @@
+﻿@model PersonDTO
+@{
+    ViewData["Title"] = "Insert";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3>
+                            New Person
+                        </h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="form_validation" asp-action="Insert" method="POST" novalidate="novalidate">
+
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <label class="form-label">First Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" asp-for="FirstName" id="firtname" class="form-control" name="FirstName">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <label class="form-label">Last Name</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="LastName" id="lastName" class="form-control" name="LastName" required="" aria-required="true">
+                            </div>
+                            @*<div class="col-sm-1">
+                                    <input class="btn btn-outline-info" id="btnBirlestir" value="Birlestir" type="button" onclick="birlestir()" />
+                                </div>*@
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-2">
+                                <label class="form-label">Full Name</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <input type="text" asp-for="FullName" id="fullName" class="form-control" name="FullName" required="" aria-required="true">
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+
+                        <div asp-validation-summary="All" class="text-danger">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+

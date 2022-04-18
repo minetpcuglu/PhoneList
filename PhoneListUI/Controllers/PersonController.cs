@@ -3,10 +3,7 @@ using DataAccessLayer.Models.DTOs;
 using DataAccessLayer.Models.VMs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PhoneListWebAPI.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +12,21 @@ namespace PhoneListUI.Controllers
 {
     public class PersonController : Controller
     {
+        //[HttpGet]
+        //public async Task<IActionResult> GetLists()
+        //{
+        //    using (
+        //        var client = new HttpClient())
+        //    {
+        //        var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/GetLists/");
+        //        var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
+        //        var values = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonString); //listelerken
+        //        return View(values);
+        //    }
+        //    //var value = await _personServices.GetAll();
+        //    //return View(value);
+        //}
+
 
         [HttpGet]
         public async Task<IActionResult> GetList()
@@ -31,32 +43,20 @@ namespace PhoneListUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Insert()
         {
             return View();
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(PersonDTO person)
+        public async Task<IActionResult> Insert(PersonDTO person)
         {
-            //using (var client = new HttpClient())
-            //{
-            //    var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
-            //    StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
-            //    var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
-            //    if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
-            //    {
-            //        return RedirectToAction("GetList");
-            //    }
-            //    ModelState.AddModelError("", "Ekleme işlemi başarısız");
-            //    return View(person);
-            //}
-
+       
             HttpClient client = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(person), Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
-            if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+            var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Insert/", content);
+            if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("GetList");
             }

@@ -39,7 +39,7 @@ namespace PhoneListUI.Controllers
                     var value = JsonConvert.DeserializeObject<ContactDTO>(jsonEmployee);
                     return View(value);
                 }
-                return RedirectToAction("GetList","Person");
+                return RedirectToAction("GetList", "Person");
 
             }
 
@@ -68,47 +68,49 @@ namespace PhoneListUI.Controllers
         //    {
         //        var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/City/GetList");
         //        var valueCity = await _cityService.CityList();
-        //    ContactDTO contactDTO = new ContactDTO
-        //    {
-        //        PersonId = id,
-        //        Cities = valueCity
+        //        ContactDTO contactDTO = new ContactDTO
+        //        {
+        //            PersonId = id,
+        //            Cities = valueCity
 
-        //    };
-        //    return View(contactDTO);
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Create(ContactDTO contact)
-        //{
-        //    await _contactServices.Add(contact);
-
-        //    return RedirectToAction("GetList","Person");
-        //}
-
-
-        //[HttpGet]
-        //public async Task<IActionResult> Update(int id)
-        //{
-        //    var value = await _contactServices.GetByIdContact(id);
-        //    var cityvalue = await _cityService.CityList();
-        //    value.Cities = cityvalue;
-        //    return View(value);
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Update(ContactDTO contact)
-        //{
-        //    await _contactServices.Update(contact);
-        //    var result = await _contactServices.GetByIdContactInfo(contact.PersonId);
-        //    return View("GetByContactInfo", result);
-        //}
-
-
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    if (id != 0)
-        //    {
-        //        var result = await _contactServices.DeleteAsync(id);
+        //        };
+        //        return View(contactDTO);
         //    }
-        //    return RedirectToAction("GetList","Person");
-        //}
+        //    [HttpPost]
+        //    public async Task<IActionResult> Create(ContactDTO contact)
+        //    {
+        //        await _contactServices.Add(contact);
+
+        //        return RedirectToAction("GetList", "Person");
+        //    }
+
+
+            //[HttpGet]
+            //public async Task<IActionResult> Update(int id)
+            //{
+            //    var value = await _contactServices.GetByIdContact(id);
+            //    var cityvalue = await _cityService.CityList();
+            //    value.Cities = cityvalue;
+            //    return View(value);
+            //}
+            //[HttpPost]
+            //public async Task<IActionResult> Update(ContactDTO contact)
+            //{
+            //    await _contactServices.Update(contact);
+            //    var result = await _contactServices.GetByIdContactInfo(contact.PersonId);
+            //    return View("GetByContactInfo", result);
+            //}
+
+
+            //public async Task<IActionResult> Delete(int id)
+            //{
+            //    if (id != 0)
+            //    {
+            //        var result = await _contactServices.DeleteAsync(id);
+            //    }
+            //    return RedirectToAction("GetList","Person");
+            //}
+        }
+        
+
     }
-}

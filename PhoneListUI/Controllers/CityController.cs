@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PhoneListUI.Controllers
@@ -22,5 +23,39 @@ namespace PhoneListUI.Controllers
                 return View(values);
             }
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PersonDTO person)
+        {
+            //using (var client = new HttpClient())
+            //{
+            //    var jsonPerson = JsonConvert.SerializeObject(person); //eklersen 
+            //    StringContent content = new StringContent(jsonPerson, Encoding.UTF8, "application/json");
+            //    var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
+            //    if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+            //    {
+            //        return RedirectToAction("GetList");
+            //    }
+            //    ModelState.AddModelError("", "Ekleme işlemi başarısız");
+            //    return View(person);
+            //}
+
+            HttpClient client = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(person), Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:44337/api/Person/Create/", content);
+            if (responseMessage.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                return RedirectToAction("GetList");
+            }
+            ModelState.AddModelError("", "Ekleme işlemi başarısız");
+            return View(person);
+        }
+
     }
 }

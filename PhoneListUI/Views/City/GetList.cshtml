@@ -1,18 +1,20 @@
-﻿@model List<PersonDTO>
+﻿@model List<CityDTO>
+
 @{
     ViewData["Title"] = "GetList";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<br />
+<br />
 
-<h1>GetList</h1>
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <h2>
-                    Person List
+                    City List
                 </h2>
-                <a asp-controller="Person" asp-action="Insert" class="btn btn-outline-success btn-sm">Ekleeeeee</a>
+                <a asp-controller="City" asp-action="Create" class="btn btn-outline-success btn-sm">Ekle</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -34,11 +36,9 @@
                                         <a asp-controller="Contact" asp-action="GetByContactInfo" asp-route-id="@item.Id" class="btn btn-outline-dark btn-sm">İletişim Bilgisini Göster</a>
                                     </td>
                                     <td>
-                                        @item.FirstName @item.LastName
+                                        @item.CityName 
                                     </td>
-                                    <td>
-                                        @item.FullName
-                                    </td>
+                                   
                                     <td>
                                         <a asp-controller="Person" asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm">Güncelle</a>
                                         @*<a asp-controller="Person" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Sil</a>*@
@@ -53,7 +53,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts{
-    <script src="~/PhoneListJavaScript.js"></script>
-}

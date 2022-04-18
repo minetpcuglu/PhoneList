@@ -10,5 +10,6 @@ namespace BusinessLayer.Services.Interface
    public interface ICityService
     {
         Task<List<CityDTO>> CityList();
+        Task<bool> Add(CityDTO cityDTO);
     }
 }

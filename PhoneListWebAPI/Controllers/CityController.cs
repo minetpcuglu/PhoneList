@@ -26,5 +26,13 @@ namespace PhoneListWebAPI.Controllers
         {
             return Ok(await _cityServices.CityList());
         }
+        [HttpPost]
+        [Route("Create")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Create([FromBody] CityDTO city)
+        {
+            return Ok(await _cityServices.Add(city));
+        }
     }
 }
