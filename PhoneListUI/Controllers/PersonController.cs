@@ -71,7 +71,7 @@ namespace PhoneListUI.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var responseMessage = await httpClient.DeleteAsync("https://localhost:44337/api/Person/Delete/" + id);
+                    var responseMessage = await httpClient.DeleteAsync("https://localhost:44337/api/Person/" + id);
                     if (responseMessage.IsSuccessStatusCode)
                     {
                         return Json(new ToastViewModel
