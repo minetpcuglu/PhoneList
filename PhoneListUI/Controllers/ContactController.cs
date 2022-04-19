@@ -58,8 +58,10 @@ namespace PhoneListUI.Controllers
                 {
                     PersonId = id,
                     Cities = values,
+                    
 
                 };
+               
                 return View(contactDTO);
             }
         }
@@ -76,27 +78,81 @@ namespace PhoneListUI.Controllers
                 {
                     var jsonEmployee = await responseMessage2.Content.ReadAsStringAsync();
                     var value = JsonConvert.DeserializeObject<List<ContactDTO>>(jsonEmployee);
-                 
+
                     return View("GetByContactInfo", value);
                 }
-              
+
 
             }
             return View(contact);
-            //var result = await _contactInfoClient.GetByContactInfo(contactInfoViewModel.PersonId);
-            //return View("GetByContactInfo", result);
-          /*  ModelState.AddModelError("", "Ekleme işlemi başarısız")*/
-            
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/Contact/" + id);
+                var responseMessage2 = await httpClient.GetAsync("https://localhost:44337/api/City/GetList");
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var jsonContact = await responseMessage.Content.ReadAsStringAsync();
+                    var value = JsonConvert.DeserializeObject<List<ContactDTO>>(jsonContact);
+                    //return View(value);
+
+
+                    var jsonString = await responseMessage2.Content.ReadAsStringAsync(); //asenkron olarak karsıla
+                    var values = JsonConvert.DeserializeObject<List<CityDTO>>(jsonString); //listelerken
+                    
+
+                    //result.Cities = city;?? bunu nasıl yapablirim
+                    //var mine=  value.Where(x => x.Id == id).Select(y => y.Cities).FirstOrDefault();
+                    //mine = values;
+                    //return View(mine);
+                   
+                }
+            }
+            return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Update(ContactDTO contact)
+        {
+            HttpClient client = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(contact), Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:44337/api/Contact/Update/", content);
+            using (var httpClient = new HttpClient())
+            {
+                var responseMessage2 = await httpClient.GetAsync("https://localhost:44337/api/Contact/" + contact.PersonId);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var jsonContact = await responseMessage2.Content.ReadAsStringAsync();
+                    var value = JsonConvert.DeserializeObject<List<ContactDTO>>(jsonContact);
 
-        //    [HttpPost]
-        //    public async Task<IActionResult> Create(ContactDTO contact)
-        //    {
-        //        await _contactServices.Add(contact);
+                    return View("GetByContactInfo", value);
+                }
 
-        //        return RedirectToAction("GetList", "Person");
-        //    }
+
+            }
+            return View(contact);
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id != 0)
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var responseMessage = await httpClient.DeleteAsync("https://localhost:44337/api/Contact/" + id);
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+
+                        return RedirectToAction("GetList", "Person");
+                    }
+                }
+            }
+            return View();
+          
+        }
 
 
         //[HttpGet]
@@ -114,7 +170,6 @@ namespace PhoneListUI.Controllers
         //    var result = await _contactServices.GetByIdContactInfo(contact.PersonId);
         //    return View("GetByContactInfo", result);
         //}
-
 
         //public async Task<IActionResult> Delete(int id)
         //{

@@ -41,14 +41,23 @@ namespace PhoneListWebAPI.Controllers
             return Ok(await _contactServices.Add(contact));
         }
 
-        //[HttpGet]
-        //[Route("{id}/GetByContactInfo")]
-        //[ProducesResponseType(typeof(List<ContactDTO>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        //public async Task<IActionResult> GetByIdContactInfo(int id)
-        //{
-        //    var result = await _contactInfoService.GetByIdContactInfo(id);
-        //    return Ok(result);
-        //}
+        [HttpPost]
+        [Route("Update")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> EditPerson([FromBody] ContactDTO contact)
+        {
+            var result = await _contactServices.Update(contact);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DeleteContact(int id)
+        {
+            var result = await _contactServices.DeleteAsync(id);
+            return Ok(result);
+        }
+
     }
 }

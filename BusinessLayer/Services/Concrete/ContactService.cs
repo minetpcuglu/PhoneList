@@ -148,17 +148,18 @@ namespace BusinessLayer.Services.Concrete
             var result = await _unitOfWork.ContactRepository.AnyAsync(a => a.Id == contactId);
             if (result == true)
             {
-                var person = await _unitOfWork.PersonRepository.GetAsync2(a => a.Id == contactId);
+                var person = await _unitOfWork.ContactRepository.GetAsync2(a => a.Id == contactId);
                 person.IsDeleted = true;
                 person.Status = false;
 
-                await _unitOfWork.PersonRepository.Update(person);
+                await _unitOfWork.ContactRepository.Update(person);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }
 
             return false;
         }
+       
 
     }
 }
