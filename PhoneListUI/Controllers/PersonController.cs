@@ -13,22 +13,6 @@ namespace PhoneListUI.Controllers
     public class PersonController : Controller
     {
         //hepsi calısıyor 
-        //[HttpGet]
-        //public async Task<IActionResult> GetLists()
-        //{
-        //    using (
-        //        var client = new HttpClient())
-        //    {
-        //        var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/GetLists/");
-        //        var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
-        //        var values = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonString); //listelerken
-        //        return View(values);
-        //    }
-        //    //var value = await _personServices.GetAll();
-        //    //return View(value);
-        //}
-
-
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
