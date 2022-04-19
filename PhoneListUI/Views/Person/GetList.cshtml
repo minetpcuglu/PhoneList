@@ -3,8 +3,6 @@
     ViewData["Title"] = "GetList";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<h1>GetList</h1>
 <div class="container-fluid">
     <div class="col-md-12">
         <div class="card">
@@ -12,7 +10,7 @@
                 <h2>
                     Person List
                 </h2>
-                <a asp-controller="Person" asp-action="Insert" class="btn btn-outline-success btn-sm">Ekleeeeee</a>
+                <a asp-controller="Person" asp-action="Insert" class="btn btn-outline-success btn-sm">Ekle</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -28,7 +26,6 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-
                                 <tr>
                                     <td id="trContact">
                                         <a asp-controller="Contact" asp-action="GetByContactInfo" asp-route-id="@item.Id" class="btn btn-outline-dark btn-sm">İletişim Bilgisini Göster</a>

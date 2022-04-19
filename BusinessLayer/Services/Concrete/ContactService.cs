@@ -87,6 +87,7 @@ namespace BusinessLayer.Services.Concrete
             }
             return null;
         }
+        
 
         public async Task<List<ContactDTO>> GetByIdContactInfo(int personId)
         {

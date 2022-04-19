@@ -22,8 +22,7 @@ namespace PhoneListWebAPI.Controllers
             _contactServices = contactService;
         }
 
-        [HttpGet]
-        [Route("{id}/GetByContactInfo")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(List<ContactDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetByIdContactInfo(int id)
@@ -34,12 +33,22 @@ namespace PhoneListWebAPI.Controllers
 
 
         [HttpPost]
-        [Route("CreateContact")]
+        [Route("Create")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Create([FromBody] ContactDTO contact)
+        public async Task<IActionResult> Insert([FromBody] ContactDTO contact)
         {
             return Ok(await _contactServices.Add(contact));
         }
+
+        //[HttpGet]
+        //[Route("{id}/GetByContactInfo")]
+        //[ProducesResponseType(typeof(List<ContactDTO>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        //public async Task<IActionResult> GetByIdContactInfo(int id)
+        //{
+        //    var result = await _contactInfoService.GetByIdContactInfo(id);
+        //    return Ok(result);
+        //}
     }
 }
