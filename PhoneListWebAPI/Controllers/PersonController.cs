@@ -43,7 +43,7 @@ namespace PhoneListWebAPI.Controllers
         [Route("{id}/Delete")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeletePerson(int id)
         {
             var result = await _personServices.DeleteAsync(id);
             return Ok(result);
@@ -53,7 +53,7 @@ namespace PhoneListWebAPI.Controllers
         [Route("Update")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Update([FromBody] PersonDTO person)
+        public async Task<IActionResult> UpdatePerson([FromBody] PersonDTO person)
         {
             var result = await _personServices.Update(person);
             return Ok(result);
@@ -63,9 +63,27 @@ namespace PhoneListWebAPI.Controllers
         [Route("PersonLocationReport")]
         [ProducesResponseType(typeof(List<PersonDTO>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> PersonLocationReport()
+        public async Task<IActionResult> PersonRaport()
         {
             return Ok(await _personServices.GetPersonLocationReport());
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetByIdPerson(int id)
+        {
+            var result = await _personServices.GetById(id);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("PersonUpdate")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> PersonUpdate([FromBody] PersonDTO person)
+        {
+            var result = await _personServices.Update(person);
+            return Ok(result);
         }
     }
 }

@@ -100,7 +100,7 @@ namespace PhoneListUI.Controllers
             //return View(value);
             using (var httpClient = new HttpClient())
             {
-                var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/Person/" + id);
+                var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/Person/"+ id);
                 if (responseMessage.IsSuccessStatusCode)
                 {
                     var jsonPerson = await responseMessage.Content.ReadAsStringAsync();
@@ -119,7 +119,7 @@ namespace PhoneListUI.Controllers
                 var value = JsonConvert.SerializeObject(person);
                 var content = new StringContent(value, Encoding.UTF8, "application/json");
 
-                var responseMessage = await httpClient.PostAsync("https://localhost:44363/api/Person/Update", content);
+                var responseMessage = await httpClient.PostAsync("https://localhost:44337/api/Person/PersonUpdate/", content);
 
                 if (responseMessage.IsSuccessStatusCode)
                 {
@@ -137,8 +137,9 @@ namespace PhoneListUI.Controllers
             {
                 var responseMessage = await client.GetAsync("https://localhost:44337/api/Person/PersonLocationReport/");
                 var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
-                var values = JsonConvert.DeserializeObject<List<PersonDTO>>(jsonString); //listelerken
+                var values = JsonConvert.DeserializeObject<List<LocationReportDTO>>(jsonString); //listelerken
                 return View(values);
+          
             }
            
         }
