@@ -15,6 +15,7 @@ namespace PhoneListWebAPI.Controllers
     [ApiController]
     public class PersonController : ControllerBase
     {
+        //hepsi calısıyor 
         private readonly IPersonService _personServices;
         public PersonController(IPersonService personService)
         {

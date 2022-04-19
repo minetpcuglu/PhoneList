@@ -12,6 +12,7 @@ namespace PhoneListUI.Controllers
 {
     public class PersonController : Controller
     {
+        //hepsi calısıyor 
         //[HttpGet]
         //public async Task<IActionResult> GetLists()
         //{
