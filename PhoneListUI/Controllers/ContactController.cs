@@ -103,9 +103,10 @@ namespace PhoneListUI.Controllers
 
                     var jsonString = await responseMessage2.Content.ReadAsStringAsync(); //asenkron olarak karsıla
                     var values = JsonConvert.DeserializeObject<List<CityDTO>>(jsonString); //listelerken
-                    
 
-                    //result.Cities = city;?? bunu nasıl yapablirim
+                    //var mine = value.Where(x => x.Id == id).Select(x => x.CityName);
+                    //var elif = values.Select(y => y.CityName);
+                     //result.Cities = city;?? bunu nasıl yapablirim
                     //var mine=  value.Where(x => x.Id == id).Select(y => y.Cities).FirstOrDefault();
                     //mine = values;
                     //return View(mine);

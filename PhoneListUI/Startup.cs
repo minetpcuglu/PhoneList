@@ -1,6 +1,3 @@
-using BusinessLayer.Services.Concrete;
-using BusinessLayer.Services.Interface;
-using BusinessLayer.Utilities.AutoMapper;
 using DataAccessLayer.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

@@ -30,7 +30,7 @@ namespace PhoneListWebAPI.Controllers
         [Route("Create")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        public async Task<IActionResult> Create([FromBody] CityDTO city)
+        public async Task<IActionResult> Insert([FromBody] CityDTO city)
         {
             return Ok(await _cityServices.Add(city));
         }
