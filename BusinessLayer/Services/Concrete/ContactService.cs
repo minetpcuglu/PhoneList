@@ -69,19 +69,18 @@ namespace BusinessLayer.Services.Concrete
                 var contactInfo = await _contactRepository.GetFilteredFirstOrDefault(
                     selector: x => new ContactDTO
                     {
-                        Id = x.PersonId,
+                        Id = x.Id,
                         EMail = x.EMail,
                         PhoneNumber = x.PhoneNumber,
                         CityId = x.City.Id,
                         CityName = x.City.Name,
                         PersonId = x.Person.Id,
                         FullName = x.Person.FullName
-
                     },
-                    expression: x => x.PersonId== id && x.Status == true,
+                    expression: x => x.Id == id && x.Status == true,
                     inculude: x => x.Include(x => x.City),
                     thenInculude: x => x.Include(x => x.Person)
-                    ) ;
+                    );
                
                 return contactInfo;
             }

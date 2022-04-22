@@ -3,6 +3,7 @@ using DataAccessLayer.Models.DTOs;
 using DataAccessLayer.Models.VMs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,14 +55,13 @@ namespace PhoneListUI.Controllers
                 var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/City/GetList");
                 var jsonString = await responseMessage.Content.ReadAsStringAsync(); //asenkron olarak karsıla
                 var values = JsonConvert.DeserializeObject<List<CityDTO>>(jsonString); //listelerken
+
                 ContactDTO contactDTO = new ContactDTO
                 {
                     PersonId = id,
-                    Cities = values,
-                    
-
+                    Cities = values
                 };
-               
+
                 return View(contactDTO);
             }
         }
@@ -92,25 +92,30 @@ namespace PhoneListUI.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                var responseMessage = await httpClient.GetAsync("https://localhost:44337/api/Contact/" + id);
-                var responseMessage2 = await httpClient.GetAsync("https://localhost:44337/api/City/GetList");
-                if (responseMessage.IsSuccessStatusCode)
+                var responseContact = await httpClient.GetAsync("https://localhost:44337/api/Contact/ContactInfo/" + id);
+                var responseCity = await httpClient.GetAsync("https://localhost:44337/api/City/GetList");
+                if (responseContact.IsSuccessStatusCode && responseCity.IsSuccessStatusCode)
                 {
-                    var jsonContact = await responseMessage.Content.ReadAsStringAsync();
-                    var value = JsonConvert.DeserializeObject<List<ContactDTO>>(jsonContact);
+                    var jsonContact = await responseContact.Content.ReadAsStringAsync();
+                    var contactInfo = JsonConvert.DeserializeObject<ContactDTO>(jsonContact);
                     //return View(value);
 
+                    var jsonString = await responseCity.Content.ReadAsStringAsync(); //asenkron olarak karsıla
+                    var cityList = JsonConvert.DeserializeObject<List<CityDTO>>(jsonString); //listelerken
 
-                    var jsonString = await responseMessage2.Content.ReadAsStringAsync(); //asenkron olarak karsıla
-                    var values = JsonConvert.DeserializeObject<List<CityDTO>>(jsonString); //listelerken
+                    ContactDTO contactDTO = new ContactDTO
+                    {
+                        Id = contactInfo.Id,
+                        PersonId = contactInfo.PersonId,
+                        FullName = contactInfo.FullName,
+                        CityName = contactInfo.CityName,
+                        Cities = cityList,
+                        CityId = contactInfo.CityId,
+                        PhoneNumber = contactInfo.PhoneNumber,
+                        EMail = contactInfo.EMail
+                    };
 
-                    //var mine = value.Where(x => x.Id == id).Select(x => x.CityName);
-                    //var elif = values.Select(y => y.CityName);
-                     //result.Cities = city;?? bunu nasıl yapablirim
-                    //var mine=  value.Where(x => x.Id == id).Select(y => y.Cities).FirstOrDefault();
-                    //mine = values;
-                    //return View(mine);
-                   
+                    return View(contactDTO);
                 }
             }
             return View();
@@ -152,7 +157,7 @@ namespace PhoneListUI.Controllers
                 }
             }
             return View();
-          
+
         }
 
 

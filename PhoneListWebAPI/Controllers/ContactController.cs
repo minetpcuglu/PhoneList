@@ -31,6 +31,16 @@ namespace PhoneListWebAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("ContactInfo/{id}")]
+        [ProducesResponseType(typeof(ContactDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> GetByContactInfo(int id)
+        {
+            var result = await _contactServices.GetByIdContact(id);
+            return Ok(result);
+        }
+
 
         [HttpPost]
         [Route("Create")]
